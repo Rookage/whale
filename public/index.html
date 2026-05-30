@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抖音文案提取 · 改写 · 转语音</title>
+  <link rel="stylesheet" href="css/style.css?v=18">
+</head>
+<body>
+  <!-- SVG Character Sprites — Mario Cast -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Mario: red cap, blue overalls -->
+      <g id="char-mario">
+        <rect x="4" y="0" width="6" height="1" fill="#FF0000"/>
+        <rect x="3" y="1" width="8" height="1" fill="#FF0000"/>
+        <rect x="2" y="2" width="10" height="1" fill="#FF0000"/>
+        <rect x="3" y="3" width="8" height="1" fill="#FFCC99"/>
+        <rect x="2" y="4" width="10" height="1" fill="#FFCC99"/>
+        <rect x="4" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="7" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="4" y="5" width="4" height="1" fill="#FFCC99"/>
+        <rect x="7" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="3" y="6" width="1" height="1" fill="#8B4513"/>
+        <rect x="5" y="6" width="2" height="1" fill="#8B4513"/>
+        <rect x="8" y="6" width="1" height="1" fill="#8B4513"/>
+        <rect x="4" y="6" width="4" height="1" fill="#FFCC99"/>
+        <rect x="3" y="7" width="8" height="1" fill="#FF0000"/>
+        <rect x="3" y="8" width="8" height="1" fill="#FF0000"/>
+        <rect x="4" y="9" width="1" height="1" fill="#FFCC99"/>
+        <rect x="7" y="9" width="1" height="1" fill="#FFCC99"/>
+        <rect x="3" y="9" width="8" height="1" fill="#0066FF"/>
+        <rect x="3" y="10" width="8" height="1" fill="#0066FF"/>
+        <rect x="4" y="11" width="2" height="1" fill="#0066FF"/>
+        <rect x="6" y="11" width="2" height="1" fill="#0066FF"/>
+        <rect x="4" y="12" width="2" height="1" fill="#8B4513"/>
+        <rect x="6" y="12" width="2" height="1" fill="#8B4513"/>
+      </g>
+      <!-- Luigi: green cap, dark blue overalls -->
+      <g id="char-luigi">
+        <rect x="4" y="0" width="6" height="1" fill="#00A800"/>
+        <rect x="3" y="1" width="8" height="1" fill="#00A800"/>
+        <rect x="2" y="2" width="10" height="1" fill="#00A800"/>
+        <rect x="3" y="3" width="8" height="1" fill="#FFCC99"/>
+        <rect x="2" y="4" width="10" height="1" fill="#FFCC99"/>
+        <rect x="4" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="7" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="4" y="5" width="4" height="1" fill="#FFCC99"/>
+        <rect x="3" y="6" width="1" height="1" fill="#8B4513"/>
+        <rect x="5" y="6" width="2" height="1" fill="#8B4513"/>
+        <rect x="8" y="6" width="1" height="1" fill="#8B4513"/>
+        <rect x="4" y="6" width="4" height="1" fill="#FFCC99"/>
+        <rect x="3" y="7" width="8" height="1" fill="#00A800"/>
+        <rect x="3" y="8" width="8" height="1" fill="#00A800"/>
+        <rect x="4" y="9" width="1" height="1" fill="#FFCC99"/>
+        <rect x="7" y="9" width="1" height="1" fill="#FFCC99"/>
+        <rect x="3" y="9" width="8" height="1" fill="#0044CC"/>
+        <rect x="3" y="10" width="8" height="1" fill="#0044CC"/>
+        <rect x="4" y="11" width="2" height="1" fill="#0044CC"/>
+        <rect x="6" y="11" width="2" height="1" fill="#0044CC"/>
+        <rect x="4" y="12" width="2" height="1" fill="#8B4513"/>
+        <rect x="6" y="12" width="2" height="1" fill="#8B4513"/>
+      </g>
+      <!-- Peach: crown, blonde hair, pink dress -->
+      <g id="char-peach">
+        <rect x="5" y="0" width="4" height="1" fill="#FFD700"/>
+        <rect x="4" y="1" width="6" height="1" fill="#FFD700"/>
+        <rect x="6" y="0" width="2" height="1" fill="#FF69B4"/>
+        <rect x="3" y="2" width="2" height="1" fill="#FFE4B5"/>
+        <rect x="7" y="2" width="2" height="1" fill="#FFE4B5"/>
+        <rect x="5" y="2" width="4" height="1" fill="#FFD700"/>
+        <rect x="3" y="3" width="8" height="1" fill="#FFCC99"/>
+        <rect x="2" y="4" width="10" height="1" fill="#FFCC99"/>
+        <rect x="4" y="5" width="2" height="1" fill="#000000"/>
+        <rect x="7" y="5" width="1" height="1" fill="#000000"/>
+        <rect x="2" y="5" width="10" height="1" fill="#FFCC99"/>
+        <rect x="5" y="6" width="2" height="1" fill="#FF8888"/>
+        <rect x="2" y="7" width="10" height="1" fill="#FF69B4"/>
+        <rect x="2" y="8" width="10" height="1" fill="#FF69B4"/>
+        <rect x="2" y="9" width="10" height="1" fill="#FF69B4"/>
+        <rect x="2" y="10" width="10" height="1" fill="#FF69B4"/>
+        <rect x="3" y="11" width="8" height="1" fill="#FF69B4"/>
+        <rect x="4" y="12" width="6" height="1" fill="#FF69B4"/>
+      </g>
+      <!-- Yoshi: green dino, orange spines, white belly -->
+      <g id="char-yoshi">
+        <rect x="6" y="0" width="2" height="1" fill="#FF8800"/>
+        <rect x="5" y="1" width="4" height="1" fill="#FF8800"/>
+        <rect x="2" y="2" width="10" height="1" fill="#00C000"/>
+        <rect x="1" y="3" width="12" height="1" fill="#00C000"/>
+        <rect x="1" y="4" width="3" height="1" fill="#00C000"/>
+        <rect x="4" y="4" width="6" height="1" fill="#FFFFFF"/>
+        <rect x="10" y="4" width="3" height="1" fill="#00C000"/>
+        <rect x="1" y="4" width="1" height="1" fill="#FF8800"/>
+        <rect x="1" y="5" width="2" height="1" fill="#00C000"/>
+        <rect x="3" y="5" width="8" height="1" fill="#FFFFFF"/>
+        <rect x="11" y="5" width="2" height="1" fill="#00C000"/>
+        <rect x="6" y="5" width="2" height="1" fill="#000000"/>
+        <rect x="1" y="6" width="12" height="1" fill="#00C000"/>
+        <rect x="1" y="7" width="12" height="1" fill="#00C000"/>
+        <rect x="2" y="8" width="2" height="1" fill="#00C000"/>
+        <rect x="8" y="8" width="2" height="1" fill="#00C000"/>
+        <rect x="4" y="8" width="4" height="1" fill="#FFFFFF"/>
+        <rect x="2" y="9" width="10" height="1" fill="#00C000"/>
+        <rect x="3" y="10" width="2" height="1" fill="#FF8800"/>
+        <rect x="7" y="10" width="2" height="1" fill="#FF8800"/>
+        <rect x="3" y="11" width="3" height="1" fill="#FF8800"/>
+        <rect x="7" y="11" width="3" height="1" fill="#FF8800"/>
+        <rect x="2" y="12" width="4" height="1" fill="#FF8800"/>
+        <rect x="7" y="12" width="4" height="1" fill="#FF8800"/>
+      </g>
+    </defs>
+  </svg>
+
+  <!-- Mario sky & clouds -->
+  <div class="mario-clouds">
+    <div class="mario-cloud cloud-1"></div>
+    <div class="mario-cloud cloud-2"></div>
+    <div class="mario-cloud cloud-3"></div>
+  </div>
+
+  <!-- Mario ground -->
+  <div class="mario-ground">
+    <div class="grass-top"></div>
+    <div class="dirt-bottom"></div>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>[☆] 抖音文案工具箱 [☆]</h1>
+      <p class="subtitle">提取文案 ☆ 改写小红书/抖音精选 ☆ 生成语音</p>
+      <button class="btn btn-small btn-clear" id="clearCacheBtn">[×] 清除缓存</button>
+    </header>
+
+    <!-- API Key Config Card -->
+    <div class="card config-card" id="configCard">
+      <div class="config-toggle" id="configToggle">
+        <span class="config-icon">[🔑]</span>
+        <span class="config-label" id="configLabel">API Keys 未配置 — 点击设置</span>
+        <span class="config-arrow" id="configArrow">▾</span>
+      </div>
+      <div class="config-body" id="configBody">
+        <div class="config-row">
+          <label class="config-field-label">DeepSeek API Key</label>
+          <input type="password" id="deepseekKeyInput" class="config-input" placeholder="sk-..." autocomplete="off">
+        </div>
+        <div class="config-row">
+          <label class="config-field-label">Pexels API Key（可选）</label>
+          <input type="password" id="pexelsKeyInput" class="config-input" placeholder="视频配图需要，可留空" autocomplete="off">
+        </div>
+        <div class="config-actions">
+          <button class="btn btn-small" id="saveConfigBtn">[✓] 保存</button>
+          <span class="config-msg hidden" id="configMsg"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="pipeline" id="pipeline">
+      <div class="pipeline-stage active" data-stage="input">
+        <div class="pipeline-dot"></div> 输入
+      </div>
+      <div class="pipeline-pipe"></div>
+      <div class="pipeline-stage" data-stage="extract">
+        <div class="pipeline-dot"></div> 提取
+      </div>
+      <div class="pipeline-pipe"></div>
+      <div class="pipeline-stage" data-stage="rewrite">
+        <div class="pipeline-dot"></div> 改写
+      </div>
+      <div class="pipeline-pipe"></div>
+      <div class="pipeline-stage" data-stage="audio">
+        <div class="pipeline-dot"></div> 音频
+      </div>
+      <div class="pipeline-pipe"></div>
+      <div class="pipeline-stage" data-stage="video">
+        <div class="pipeline-dot"></div> 视频
+      </div>
+    </div>
+
+    <!-- Input Card -->
+    <div class="card" id="inputCard">
+      <div class="card-header-row">
+        <svg viewBox="0 0 14 14" width="52" height="56" shape-rendering="crispEdges" class="char-sprite"><use href="#char-mario"/></svg>
+        <div>
+          <div class="card-title" style="margin-bottom:4px">[⚑] 输入抖音链接</div>
+          <div class="char-speech">把链接交给我，我帮你把它带到下一关！</div>
+        </div>
+      </div>
+      <!-- Tab Switcher -->
+      <div class="tab-switcher">
+        <button class="tab-btn active" data-tab="url">[>] 抖音链接</button>
+        <button class="tab-btn" data-tab="upload">[▲] 上传MP4</button>
+      </div>
+
+      <!-- URL Tab Panel -->
+      <div class="tab-panel" id="urlPanel">
+        <div class="input-group">
+          <input
+            type="url"
+            id="urlInput"
+            placeholder="https://www.douyin.com/video/..."
+            autocomplete="off"
+          >
+          <button class="btn btn-primary" id="extractBtn">[■] 提取描述</button>
+          <button class="btn btn-secondary" id="transcriptBtn">[◆] 提取逐字稿</button>
+        </div>
+        <div class="url-hint" id="urlHint"></div>
+        <div class="divider">
+          <span>或者</span>
+        </div>
+        <div class="manual-toggle" id="manualToggle">
+          <button class="btn btn-text" id="toggleManualBtn">[?] 手动粘贴文案 ▾</button>
+        </div>
+        <div class="manual-area hidden" id="manualArea">
+          <textarea
+            id="manualInput"
+            placeholder="直接在此粘贴抖音视频的文案内容..."
+            rows="6"
+          ></textarea>
+        </div>
+        <div class="field-error hidden" id="urlError"></div>
+      </div>
+
+      <!-- Upload Tab Panel -->
+      <div class="tab-panel hidden" id="uploadPanel">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon">[▼]</div>
+          <div class="upload-text">拖拽 MP4 文件到此处</div>
+          <div class="upload-sub">或点击选择文件（最大500MB）</div>
+          <input type="file" id="fileInput" accept=".mp4,video/mp4" hidden>
+        </div>
+        <div class="upload-info hidden" id="uploadInfo">
+          <div class="upload-file-icon">[◆]</div>
+          <div>
+            <div class="upload-filename" id="uploadFilename"></div>
+            <div class="upload-filesize" id="uploadFileSize"></div>
+          </div>
+          <button class="btn btn-small btn-upload-clear" id="clearFileBtn">[×] 清除</button>
+        </div>
+        <button class="btn btn-secondary btn-upload-transcript" id="uploadTranscriptBtn">[◆] 提取逐字稿</button>
+        <div class="upload-progress hidden" id="uploadProgress">
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">正在提取音频...</div>
+        </div>
+        <div class="field-error hidden" id="uploadError"></div>
+      </div>
+    </div>
+
+    <!-- Status Area -->
+    <div class="card hidden" id="statusCard">
+      <div class="loading">
+        <div class="spinner"></div>
+        <span id="statusText">正在提取文字...</span>
+      </div>
+    </div>
+
+    <!-- Extracted Text Card -->
+    <div class="card hidden" id="textCard">
+      <div class="card-header-row">
+        <svg viewBox="0 0 14 14" width="52" height="56" shape-rendering="crispEdges" class="char-sprite"><use href="#char-luigi"/></svg>
+        <div>
+          <div class="card-title" style="margin-bottom:4px">[□] 提取的文案</div>
+          <div class="char-speech" id="extractSpeech">交给我吧！我来把文案提取出来！</div>
+        </div>
+      </div>
+      <div class="text-source" id="textSource"></div>
+      <div class="text-display" id="textDisplay"></div>
+      <div style="margin-top:8px">
+        <button class="btn btn-small" id="copyTextBtn">[📋] 复制全文</button>
+        <span class="copy-toast hidden" id="textCopyToast">[✓] 已复制</span>
+      </div>
+      <div class="rewrite-buttons">
+        <button class="btn btn-accent" id="rewriteXhsBtn">[♛] 改写小红书</button>
+        <button class="btn btn-accent btn-douyin" id="rewriteDouyinBtn">[★] 改写抖音精选</button>
+      </div>
+      <div class="field-error hidden" id="textError"></div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="card hidden" id="resultCard">
+      <div class="card-header-row">
+        <svg viewBox="0 0 14 14" width="52" height="56" shape-rendering="crispEdges" class="char-sprite"><use href="#char-peach"/></svg>
+        <div>
+          <div class="card-title" style="margin-bottom:4px">
+            <span id="resultTitle">[♛] 小红书风格文案</span>
+            <button class="btn btn-small" id="copyBtn">[□] 复制</button>
+          </div>
+          <div class="char-speech" id="rewriteSpeech">让我把它变成超好看的风格！</div>
+        </div>
+      </div>
+      <div class="result-content" id="resultContent"></div>
+      <div class="copy-toast hidden" id="copyToast">[✓] 已复制到剪贴板</div>
+
+      <!-- Audio Generation -->
+      <div class="audio-section">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <svg viewBox="0 0 14 14" width="44" height="48" shape-rendering="crispEdges" class="char-sprite"><use href="#char-yoshi"/></svg>
+          <div class="char-speech" id="audioSpeech" style="font-size:7px">交给我吧！我来给它配上声音！</div>
+        </div>
+        <div class="audio-controls">
+          <div class="rate-control">
+            <span class="rate-label">语速</span>
+            <input type="range" id="rateSlider" class="rate-slider" min="-50" max="50" value="0" step="5">
+            <span class="rate-value" id="rateValue">0%</span>
+          </div>
+          <select id="voiceSelect" class="voice-select">
+            <option value="zh-CN-XiaoxiaoNeural">[✦] 晓晓 · 温柔知性 · 适合小红书</option>
+            <option value="zh-CN-XiaoyiNeural">晓伊 · 活泼俏皮 · 生活分享</option>
+            <option value="zh-CN-YunxiNeural">[✦] 云希 · 沉稳磁性 · 适合抖音精选</option>
+            <option value="zh-CN-YunjianNeural">云健 · 叙事风格 · 纪录片感</option>
+            <option value="zh-CN-YunyangNeural">云扬 · 新闻播音 · 时政财经</option>
+            <option value="zh-CN-XiaochenNeural">晓辰 · 休闲随性 · 日常Vlog</option>
+          </select>
+          <button class="btn btn-small btn-tts" id="generateAudioBtn">[♪] 生成音频</button>
+        </div>
+        <div class="audio-player hidden" id="audioPlayer">
+          <audio controls id="audioElement"></audio>
+          <a class="btn btn-small btn-download" id="downloadAudioBtn" download>[↓] 下载 MP3</a>
+        </div>
+        <div class="field-error hidden" id="ttsError"></div>
+      </div>
+
+      <!-- Video Generation -->
+      <div class="video-section">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <div class="char-speech" id="videoSpeech" style="font-size:7px">Yoshi已经准备好了！让我把语音配上图片做成视频吧！</div>
+        </div>
+        <button class="btn btn-accent btn-video" id="generateVideoBtn">[▶] 生成视频</button>
+        <div class="video-progress hidden" id="videoProgress">
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="videoProgressFill"></div>
+          </div>
+          <div class="progress-text" id="videoProgressText">正在生成视频...</div>
+        </div>
+        <div class="video-player hidden" id="videoPlayer">
+          <video controls id="videoElement"></video>
+          <div style="margin-top:6px">
+            <a class="btn btn-small btn-download" id="downloadVideoBtn" download>[↓] 下载 MP4</a>
+            <span class="video-meta" id="videoMeta"></span>
+          </div>
+        </div>
+        <div class="field-error hidden" id="videoError"></div>
+      </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div class="toast hidden" id="toast">
+      <span class="toast-msg" id="toastMsg"></span>
+      <button class="toast-close" id="toastClose">✕</button>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=18"></script>
+</body>
+</html>

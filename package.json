@@ -1,0 +1,20 @@
+{
+  "name": "douyin-xiaohongshu-rewriter",
+  "version": "1.0.0",
+  "description": "抖音→小红书文案改写工具，自动提取视频文案并用AI改写为小红书风格",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "puppeteer": "^25.0.4"
+  }
+}
