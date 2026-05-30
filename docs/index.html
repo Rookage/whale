@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WHALE - 抖音文案智能改写工具</title>
+  <style>
+    :root { --bg: #fafafa; --surface: #fff; --text: #1e293b; --text2: #64748b; --primary: #2563eb; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .hero { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; padding: 80px 24px; text-align: center; }
+    .hero h1 { font-size: 42px; margin-bottom: 12px; }
+    .hero p { color: #94a3b8; font-size: 18px; max-width: 600px; margin: 0 auto 24px; }
+    .hero .badge { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 13px; margin: 4px; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 48px 24px; }
+    .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 48px; }
+    @media (max-width: 768px) { .pipeline { grid-template-columns: repeat(2, 1fr); } }
+    .stage { background: var(--surface); border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px; text-align: center; }
+    .stage .num { width: 32px; height: 32px; background: var(--primary); color: #fff; border-radius: 50%; margin: 0 auto 8px; line-height: 32px; font-weight: 700; font-size: 14px; }
+    .stage h3 { font-size: 14px; margin-bottom: 4px; }
+    .stage p { font-size: 12px; color: var(--text2); }
+    .cta { text-align: center; padding: 32px; }
+    .btn { display: inline-block; background: var(--primary); color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid #e5e5e5; }
+  </style>
+</head>
+<body>
+<div class="hero">
+  <h1>🐳 WHALE</h1>
+  <p>抖音链接 → 视频描述提取 → 逐字稿 → AI改写 → TTS语音 → 视频合成</p>
+  <div>
+    <span class="badge">Puppeteer</span>
+    <span class="badge">faster-whisper</span>
+    <span class="badge">DeepSeek AI</span>
+    <span class="badge">edge-tts</span>
+    <span class="badge">ffmpeg</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="pipeline">
+    <div class="stage"><div class="num">1</div><h3>提取描述</h3><p>Puppeteer 自动爬取</p></div>
+    <div class="stage"><div class="num">2</div><h3>语音转文字</h3><p>Whisper 逐字稿</p></div>
+    <div class="stage"><div class="num">3</div><h3>AI 改写</h3><p>小红书 / 抖音风格</p></div>
+    <div class="stage"><div class="num">4</div><h3>TTS 语音</h3><p>6 种中文语音</p></div>
+    <div class="stage"><div class="num">5</div><h3>视频合成</h3><p>Pexels + ffmpeg</p></div>
+  </div>
+</div>
+
+<div class="cta">
+  <a href="https://github.com/Rookage/whale" class="btn">GitHub 仓库</a>
+</div>
+
+<footer>MIT License · Built by <a href="https://github.com/Rookage">Rookage</a></footer>
+</body>
+</html>
